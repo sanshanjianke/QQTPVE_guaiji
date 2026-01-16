@@ -8,12 +8,17 @@
  */
 
 using System;
+using System.Threading;
 
 namespace Scripts
 {
     public class LittleFruitVillage : BaseScript
 	{
-		private Action<string> _logAction;
+        public LittleFruitVillage(CancellationToken ct) : base(ct)
+        {
+        }
+
+        private Action<string> _logAction;
 		public void SetLogAction(Action<string> logAction)
 		{
 			_logAction = logAction;
@@ -59,6 +64,7 @@ namespace Scripts
         }
         
         private int i=1; // 局数
+
         private void RunOneRound()
         {
         	

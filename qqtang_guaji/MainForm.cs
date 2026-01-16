@@ -19,7 +19,7 @@ namespace qqtang_guaji
             InitializeUsageTimer();
             
             // 检查时间限制
-            CheckTimeRestriction();
+            //CheckTimeRestriction();
         }
         
         private void InitializeUsageTimer()
@@ -113,7 +113,7 @@ namespace qqtang_guaji
             this.Hide();
             Form2 woniu = new Form2();
             woniu.ShowDialog();
-            this.Close();
+            this.Show();
         }
 
         void Button2Click(object sender, EventArgs e)
@@ -121,7 +121,7 @@ namespace qqtang_guaji
             this.Hide();
             Form1 xiaoguo = new Form1();
             xiaoguo.ShowDialog();
-            this.Close();
+            this.Show();
         }
         
         void Button3Click(object sender, EventArgs e)
@@ -129,7 +129,7 @@ namespace qqtang_guaji
             this.Hide();
             Form3 siji = new Form3();
             siji.ShowDialog();
-            this.Close();
+            this.Show();
         }
         
         // 窗体关闭时停止计时器

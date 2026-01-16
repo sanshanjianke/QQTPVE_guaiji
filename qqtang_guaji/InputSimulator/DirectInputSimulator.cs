@@ -10,7 +10,8 @@ namespace InputSimulator
 {
     public class DirectInputSimulator
     {
-        // 导入Windows API
+
+        #region 导入Windows API
         [DllImport("user32.dll")]
         private static extern bool SetCursorPos(int X, int Y);
 
@@ -69,7 +70,9 @@ namespace InputSimulator
 
         [DllImport("user32.dll")]
         private static extern bool IsWindow(IntPtr hWnd);
+        #endregion
 
+        #region 常量
         // =========== 窗口消息鼠标操作常量 ===========
         private const uint WM_MOUSEMOVE = 0x0200;
         private const uint WM_LBUTTONDOWN = 0x0201;
@@ -98,6 +101,7 @@ namespace InputSimulator
         private const int SW_RESTORE = 9;           // 恢复窗口
         private const int SW_SHOWDEFAULT = 10;      // 默认显示窗口
         private const int SW_FORCEMINIMIZE = 11;    // 强制最小化窗口
+        #endregion
 
         // 结构体定义
         [StructLayout(LayoutKind.Sequential)]
@@ -131,10 +135,6 @@ namespace InputSimulator
         // 窗口查找相关
         private const int MAX_WINDOW_TEXT_LENGTH = 256;
 
-        // 单例实例
-        private static DirectInputSimulator _instance;
-        public static DirectInputSimulator Instance => _instance ?? (_instance = new DirectInputSimulator());
-
         // 当前目标窗口句柄
         private IntPtr _targetWindowHandle = IntPtr.Zero;
 
@@ -154,10 +154,12 @@ namespace InputSimulator
 
         private MouseMode _mouseMode = MouseMode.PostMessage;
 
-        // 默认构造函数
-        private DirectInputSimulator()
+        // 构造函数
+        private CancellationToken _token;
+        public DirectInputSimulator(CancellationToken token)
         {
             // 默认错误处理：显示消息框
+            _token = token;
             ErrorHandler = message => MessageBox.Show(message, "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
@@ -173,7 +175,7 @@ namespace InputSimulator
             return _mouseMode;
         }
 
-        // ==================== 窗口状态判断函数 ====================
+        #region 窗口状态判断函数
 
         /// <summary>
         /// 判断窗口是否是最小化状态
@@ -309,7 +311,7 @@ namespace InputSimulator
             {
                 Debug.WriteLine($"窗口最小化成功");
                 // 等待窗口最小化完成
-                Thread.Sleep(100);
+                _token.WaitHandle.WaitOne(100);
             }
             else
             {
@@ -368,7 +370,7 @@ namespace InputSimulator
             {
                 Debug.WriteLine($"窗口恢复成功");
                 // 等待窗口恢复完成
-                Thread.Sleep(100);
+                _token.WaitHandle.WaitOne(100);
             }
             else
             {
@@ -404,7 +406,7 @@ namespace InputSimulator
             if (result)
             {
                 Debug.WriteLine($"窗口{(show ? "显示" : "隐藏")}成功");
-                Thread.Sleep(100);
+                _token.WaitHandle.WaitOne(100);
             }
             else
             {
@@ -414,7 +416,9 @@ namespace InputSimulator
             return result;
         }
 
-        // ==================== 辅助方法 ====================
+        #endregion
+
+        #region 辅助方法
 
         // 将客户端坐标转换为LParam
         private int MakeLParam(int x, int y)
@@ -436,8 +440,10 @@ namespace InputSimulator
         {
             ErrorHandler?.Invoke(message);
         }
+        #endregion
 
-        // ==================== 窗口查找方法 ====================
+
+        #region 窗口查找方法 
 
         // 设置目标窗口
         public void SetTargetWindow(string partialTitle)
@@ -519,6 +525,8 @@ namespace InputSimulator
             IntPtr hWnd = GetTargetWindow();
             return ActivateWindow(hWnd);
         }
+
+        #endregion
 
         // ==================== 鼠标操作方法（物理） ====================
 
@@ -612,9 +620,9 @@ namespace InputSimulator
                 for (int i = 0; i < clickCount; i++)
                 {
                     mouse_event(MOUSEEVENTF_DOWN, 0, 0, 0, UIntPtr.Zero);
-                    Thread.Sleep(delayBetweenClicks);
+                    _token.WaitHandle.WaitOne(delayBetweenClicks);
                     mouse_event(MOUSEEVENTF_UP, 0, 0, 0, UIntPtr.Zero);
-                    Thread.Sleep(delayBetweenClicks);
+                    _token.WaitHandle.WaitOne(delayBetweenClicks);
                 }
             }
             else
@@ -640,17 +648,17 @@ namespace InputSimulator
                     if (_mouseMode == MouseMode.PostMessage)
                     {
                         PostMessage(hWnd, WM_LBUTTONDOWN, (IntPtr)MK_LBUTTON, (IntPtr)lParam);
-                        Thread.Sleep(delayBetweenClicks);
+                        _token.WaitHandle.WaitOne(delayBetweenClicks);
                         PostMessage(hWnd, WM_LBUTTONUP, IntPtr.Zero, (IntPtr)lParam);
                     }
                     else
                     {
                         SendMessage(hWnd, WM_LBUTTONDOWN, (IntPtr)MK_LBUTTON, (IntPtr)lParam);
-                        Thread.Sleep(delayBetweenClicks);
+                        _token.WaitHandle.WaitOne(delayBetweenClicks);
                         SendMessage(hWnd, WM_LBUTTONUP, IntPtr.Zero, (IntPtr)lParam);
                     }
 
-                    Thread.Sleep(delayBetweenClicks);
+                    _token.WaitHandle.WaitOne(delayBetweenClicks);
                 }
             }
         }
@@ -693,19 +701,19 @@ namespace InputSimulator
 
             // 发送鼠标移动消息
             SendMouseMove(clientX, clientY);
-            Thread.Sleep(10);
+            _token.WaitHandle.WaitOne(10);
 
             // 发送鼠标左键按下消息
             if (_mouseMode == MouseMode.PostMessage)
             {
                 PostMessage(hWnd, WM_LBUTTONDOWN, (IntPtr)MK_LBUTTON, (IntPtr)lParam);
-                Thread.Sleep(delayBetweenEvents);
+                _token.WaitHandle.WaitOne(delayBetweenEvents);
                 PostMessage(hWnd, WM_LBUTTONUP, IntPtr.Zero, (IntPtr)lParam);
             }
             else
             {
                 SendMessage(hWnd, WM_LBUTTONDOWN, (IntPtr)MK_LBUTTON, (IntPtr)lParam);
-                Thread.Sleep(delayBetweenEvents);
+                _token.WaitHandle.WaitOne(delayBetweenEvents);
                 SendMessage(hWnd, WM_LBUTTONUP, IntPtr.Zero, (IntPtr)lParam);
             }
         }
@@ -724,19 +732,19 @@ namespace InputSimulator
 
             // 发送鼠标移动消息
             SendMouseMove(clientX, clientY);
-            Thread.Sleep(10);
+            _token.WaitHandle.WaitOne(10);
 
             // 发送鼠标右键按下和释放消息
             if (_mouseMode == MouseMode.PostMessage)
             {
                 PostMessage(hWnd, WM_RBUTTONDOWN, (IntPtr)MK_RBUTTON, (IntPtr)lParam);
-                Thread.Sleep(delayBetweenEvents);
+                _token.WaitHandle.WaitOne(delayBetweenEvents);
                 PostMessage(hWnd, WM_RBUTTONUP, IntPtr.Zero, (IntPtr)lParam);
             }
             else
             {
                 SendMessage(hWnd, WM_RBUTTONDOWN, (IntPtr)MK_RBUTTON, (IntPtr)lParam);
-                Thread.Sleep(delayBetweenEvents);
+                _token.WaitHandle.WaitOne(delayBetweenEvents);
                 SendMessage(hWnd, WM_RBUTTONUP, IntPtr.Zero, (IntPtr)lParam);
             }
         }
@@ -745,7 +753,7 @@ namespace InputSimulator
         public void SendDoubleClick(int clientX, int clientY)
         {
             SendLeftClick(clientX, clientY, 30);
-            Thread.Sleep(10);
+            _token.WaitHandle.WaitOne(10);
             SendLeftClick(clientX, clientY, 30);
         }
 
@@ -763,19 +771,19 @@ namespace InputSimulator
 
             // 发送鼠标移动消息
             SendMouseMove(clientX, clientY);
-            Thread.Sleep(10);
+            _token.WaitHandle.WaitOne(10);
 
             // 发送鼠标中键按下和释放消息
             if (_mouseMode == MouseMode.PostMessage)
             {
                 PostMessage(hWnd, WM_MBUTTONDOWN, (IntPtr)MK_MBUTTON, (IntPtr)lParam);
-                Thread.Sleep(delayBetweenEvents);
+                _token.WaitHandle.WaitOne(delayBetweenEvents);
                 PostMessage(hWnd, WM_MBUTTONUP, IntPtr.Zero, (IntPtr)lParam);
             }
             else
             {
                 SendMessage(hWnd, WM_MBUTTONDOWN, (IntPtr)MK_MBUTTON, (IntPtr)lParam);
-                Thread.Sleep(delayBetweenEvents);
+                _token.WaitHandle.WaitOne(delayBetweenEvents);
                 SendMessage(hWnd, WM_MBUTTONUP, IntPtr.Zero, (IntPtr)lParam);
             }
         }
@@ -786,7 +794,7 @@ namespace InputSimulator
             for (int i = 0; i < count; i++)
             {
                 SendLeftClick(clientX, clientY, 30);
-                Thread.Sleep(interval);
+                _token.WaitHandle.WaitOne(interval);
             }
         }
 
@@ -831,7 +839,7 @@ namespace InputSimulator
             }
 
             SendKeyToWindow(hWnd, key);
-            Thread.Sleep(50);
+            _token.WaitHandle.WaitOne(50);
         }
 
         // 向指定窗口发送按键
@@ -864,7 +872,7 @@ namespace InputSimulator
 
             // 发送按键按下消息
             SendMessage(hWnd, KeyConfig.WM_KEYDOWN, wParam, lParamDownPtr);
-            Thread.Sleep(20);
+            _token.WaitHandle.WaitOne(20);
 
             // 发送按键释放消息
             SendMessage(hWnd, KeyConfig.WM_KEYUP, wParam, lParamUpPtr);
@@ -873,6 +881,7 @@ namespace InputSimulator
         // 按住按键一段时间
         public void Hold(string key, int milliseconds)
         {
+            _token.ThrowIfCancellationRequested();
             if (!KeyConfig.KeyScanCodes.ContainsKey(key.ToLower()))
             {
                 ShowError($"不支持的按键: {key}");
@@ -888,7 +897,7 @@ namespace InputSimulator
 
             key = key.ToLower();
             SendKeyDown(hWnd, key);
-            Thread.Sleep(milliseconds);
+            _token.WaitHandle.WaitOne(milliseconds);
             SendKeyUp(hWnd, key);
         }
 
@@ -963,7 +972,7 @@ namespace InputSimulator
 
             // 发送按键消息（异步）
             PostMessage(hWnd, KeyConfig.WM_KEYDOWN, (IntPtr)virtualKey, UIntToIntPtr(lParamDown));
-            Thread.Sleep(20);
+            _token.WaitHandle.WaitOne(20);
             PostMessage(hWnd, KeyConfig.WM_KEYUP, (IntPtr)virtualKey, UIntToIntPtr(lParamUp));
         }
 
@@ -972,7 +981,8 @@ namespace InputSimulator
         // 等待
         public void Wait(int milliseconds)
         {
-            Thread.Sleep(milliseconds);
+            _token.WaitHandle.WaitOne(milliseconds);
+            _token.ThrowIfCancellationRequested();
         }
 
         // 获取窗口句柄（通过部分标题）- 公开方法

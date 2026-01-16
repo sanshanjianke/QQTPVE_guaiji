@@ -14,8 +14,9 @@ namespace Scripts
 {
     public class SnailCatchingScript : BaseScript
     {
-    	
-    	public int MapCount;
+        public SnailCatchingScript(CancellationToken ct) : base(ct) { }
+      
+        public int MapCount;
     	
 		private Action<string> _logAction;
 		public void SetLogAction(Action<string> logAction)
@@ -46,25 +47,20 @@ namespace Scripts
         
         public override void Run()
         {
-        	
-        	
-        	LogToUI("5秒后脚本开始运行...");
-            
-            Wait(5000);
-            
-            int MapCountIn = MapCount;
 
-            InputSimulator.DirectInputSimulator simulator = InputSimulator.DirectInputSimulator.Instance;
+            int MapCountIn = MapCount;
 
             // input.MoveMouseToClientPositionByPartialTitle("QQTPVE", 150, 200); 示例
             // 应对120分钟后禁止开始游戏，此处自动创建房间，选择地图等
-            while (true){
-				while (MapCountIn != 0) {
-					MapCountIn--;
-					RunOneRound();
-				}
+            while (true)
+            {
+                while (MapCountIn != 0)
+                {
+                    MapCountIn--;
+                    RunOneRound();
+                }
 
-                
+
                 IntPtr hWnd = input.GetWindowHandleByPartialTitle("QQTPVE");
                 input.MinimizeWindowIfNotMinimized(hWnd);
 
@@ -74,19 +70,22 @@ namespace Scripts
 
                 Wait(10000);
                 input.SendLeftClick(958, 571); // 离开房间
-				Wait(10000);
+                Wait(10000);
                 input.SendLeftClick(824, 567); // 创建房间
-				Wait(10000);
+                Wait(10000);
                 input.SendLeftClick(775, 140); // 点击地图
-				Wait(3000);
+                Wait(3000);
                 input.SendLeftClick(327, 310); // 选择作者
-				Wait(3000);
+                Wait(3000);
                 input.SendLeftClick(602, 387); // 选择地图
-				Wait(3000);
-				MapCountIn=MapCount;
-			}
+                Wait(3000);
+                MapCountIn = MapCount;
+            }
         }
         private int i = 1; // jushu
+
+        
+
         private void RunOneRound()
         {
             LogToUI($"开始新一轮游戏,现在是第{i}局");

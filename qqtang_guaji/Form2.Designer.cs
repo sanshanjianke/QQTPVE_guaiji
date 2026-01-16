@@ -115,8 +115,6 @@ namespace qqtang_guaji
             this.Controls.Add(this.button1);
             this.Name = "Form2";
             this.Text = "抓蜗牛";
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form2FormClosing);
-            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Form2FormClosed);
             this.Load += new System.EventHandler(this.Form2Load);
             this.ResumeLayout(false);
             this.PerformLayout();
