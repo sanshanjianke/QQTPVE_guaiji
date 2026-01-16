@@ -15,8 +15,10 @@ namespace Scripts
 {
     public class Qclick : BaseScript
     {
-    	
-    	
+        public Qclick(CancellationToken ct) : base(ct)
+        {
+        }
+
         public override string Name 
         { 
             get { return "鼠标连点器"; } 

@@ -1,10 +1,14 @@
 ﻿using System;
+using System.Threading;
 
 
 namespace Scripts
 {
     public class SeasonCountry : BaseScript
     {
+        public SeasonCountry(CancellationToken ct) : base(ct)
+        {
+        }
         public override string Name
         {
             get { return "SeasonCountry"; }
@@ -51,6 +55,7 @@ namespace Scripts
         }
 
         private int i=1; // jushu
+
         private void RunOneRound()
         {
             LogToUI($"开始新一轮游戏,现在是第{i}局");

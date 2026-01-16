@@ -24,13 +24,15 @@ namespace Scripts
     // 脚本基类
     public abstract class BaseScript : IGameScript
     {
+        protected CancellationToken token;
         protected DirectInputSimulator input;
-        
-        public BaseScript()
+
+        public BaseScript(CancellationToken ct)
         {
-            input = DirectInputSimulator.Instance;
+            token = ct;
+            input = new DirectInputSimulator(ct);
         }
-        
+
         public abstract string Name { get; }
         public abstract string Description { get; }
         public abstract void Run();
@@ -43,7 +45,8 @@ namespace Scripts
         
         protected void Wait(int milliseconds)
         {
-            Thread.Sleep(milliseconds);
+            token.WaitHandle.WaitOne(milliseconds);
+            token.ThrowIfCancellationRequested();
         }
     }
 }

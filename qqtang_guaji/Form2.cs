@@ -18,30 +18,30 @@ namespace qqtang_guaji
 	/// </summary>
 	public partial class Form2 : Form
 	{
-		
+        private CancellationTokenSource _cts;
+        private Thread _scriptThread;
+        private Scripts.SnailCatchingScript _script;
 
-
-		public Form2()
+        public Form2()
 		{
 			//
 			// The InitializeComponent() call is required for Windows Forms designer support.
 			//
 			InitializeComponent();
-			
-			//
-			// TODO: Add constructor code after the InitializeComponent() call.
-			//
-		}
+			_cts = new CancellationTokenSource();
+            //
+            // TODO: Add constructor code after the InitializeComponent() call.
+            //
+        }
 		
 		
 		void Button1Click(object sender, EventArgs e)
 		{
-			Scripts.SnailCatchingScript woniu_run = new Scripts.SnailCatchingScript();
-    
-			woniu_run.MapCount= int.Parse(textBox2.Text);
-			
-			// 设置日志动作
-			woniu_run.SetLogAction((message) => {
+            _script = new Scripts.SnailCatchingScript(_cts.Token);
+            _script.MapCount = int.Parse(textBox2.Text);
+
+            // 设置日志动作
+            _script.SetLogAction((message) => {
 				if (textBox1.InvokeRequired) {
 					textBox1.Invoke(new Action<string>((msg) => {
 						textBox1.AppendText(msg + Environment.NewLine);
@@ -52,52 +52,65 @@ namespace qqtang_guaji
 					textBox1.ScrollToCaret();
 				}
 			});
-    
-			// 在新线程中运行
-			System.Threading.Thread scriptThread = new System.Threading.Thread(() => {
-				woniu_run.Run();
-			});
-			
-			
-			
-			scriptThread.IsBackground = true;
-			scriptThread.Start();
-			woniu_run.SetLogAction((message) => {
-				// 简单的检查 - 如果窗体已关闭，直接返回
-				if (this.IsDisposed || textBox1.IsDisposed)
-					return;
+
+            // 在新线程中运行
+            _scriptThread = new Thread(() =>
+            {
+                try
+                {
+                    _script.Run();
+                }
+                catch (OperationCanceledException)
+                {
+                    // 正常取消，不算错误
+                }
+            });
+
+
+
+            _scriptThread.IsBackground = true;
+			_scriptThread.Start();
+			//woniu_run.SetLogAction((message) => {
+			//	// 简单的检查 - 如果窗体已关闭，直接返回
+			//	if (this.IsDisposed || textBox1.IsDisposed)
+			//		return;
         
-				try {
-					if (textBox1.InvokeRequired) {
-						textBox1.Invoke(new Action<string>((msg) => {
-							// 再次检查
-							if (!this.IsDisposed && !textBox1.IsDisposed) {
-								textBox1.AppendText(msg + Environment.NewLine);
-							}
-						}), message);
-					} else {
-						if (!this.IsDisposed && !textBox1.IsDisposed) {
-							textBox1.AppendText(message + Environment.NewLine);
-						}
-					}
-				} catch (ObjectDisposedException) {
-					// 忽略已释放的控件异常
-				}
-			});
+			//	try {
+			//		if (textBox1.InvokeRequired) {
+			//			textBox1.Invoke(new Action<string>((msg) => {
+			//				// 再次检查
+			//				if (!this.IsDisposed && !textBox1.IsDisposed) {
+			//					textBox1.AppendText(msg + Environment.NewLine);
+			//				}
+			//			}), message);
+			//		} else {
+			//			if (!this.IsDisposed && !textBox1.IsDisposed) {
+			//				textBox1.AppendText(message + Environment.NewLine);
+			//			}
+			//		}
+			//	} catch (ObjectDisposedException) {
+			//		// 忽略已释放的控件异常
+			//	}
+			//});
 			
 		}
-		
-		void TextBox1TextChanged(object sender, EventArgs e)
+
+        void Form2FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (_cts != null)
+            {
+                _cts.Cancel();   // 🔴 关键：通知脚本停止
+            }
+        }
+
+
+        void TextBox1TextChanged(object sender, EventArgs e)
 		{
 	
 		}
 		void Form2FormClosed(object sender, FormClosedEventArgs e)
 		{
 	
-		}
-		void Form2FormClosing(object sender, FormClosingEventArgs e)
-		{
-
 		}
 		void Label1Click(object sender, EventArgs e)
 		{
