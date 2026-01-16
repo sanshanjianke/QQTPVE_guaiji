@@ -30,17 +30,14 @@ namespace qqtang_guaji
         }
         void Button1Click(object sender, EventArgs e)
         {
-            Scripts.SeasonCountry seasonCountry = new Scripts.SeasonCountry(_cts.Token);
-
-            seasonCountry.WaitTime = int.Parse(textBox2.Text) * 1000;
+            Scripts.SeasonCountry script = new Scripts.SeasonCountry(_cts.Token);
+            script.WaitTime = int.Parse(textBox2.Text) * 1000;
 
             // 设置日志动作
-            seasonCountry.SetLogAction((message) =>
-            {
+            script.SetLogAction((message) => {
                 if (textBox1.InvokeRequired)
                 {
-                    textBox1.Invoke(new Action<string>((msg) =>
-                    {
+                    textBox1.Invoke(new Action<string>((msg) => {
                         textBox1.AppendText(msg + Environment.NewLine);
                         textBox1.ScrollToCaret();
                     }), message);
@@ -53,47 +50,20 @@ namespace qqtang_guaji
             });
 
             // 在新线程中运行
-            System.Threading.Thread scriptThread = new System.Threading.Thread(() =>
+            Thread scriptThread = new Thread(() =>
             {
-                seasonCountry.Run();
+                try
+                {
+                    script.Run();
+                }
+                catch (OperationCanceledException)
+                {
+                    // 正常取消，不算错误
+                }
             });
-
 
             scriptThread.IsBackground = true;
             scriptThread.Start();
-
-            seasonCountry.SetLogAction((message) =>
-            {
-                // 简单的检查 - 如果窗体已关闭，直接返回
-                if (this.IsDisposed || textBox1.IsDisposed)
-                    return;
-
-                try
-                {
-                    if (textBox1.InvokeRequired)
-                    {
-                        textBox1.Invoke(new Action<string>((msg) =>
-                        {
-                            // 再次检查
-                            if (!this.IsDisposed && !textBox1.IsDisposed)
-                            {
-                                textBox1.AppendText(msg + Environment.NewLine);
-                            }
-                        }), message);
-                    }
-                    else
-                    {
-                        if (!this.IsDisposed && !textBox1.IsDisposed)
-                        {
-                            textBox1.AppendText(message + Environment.NewLine);
-                        }
-                    }
-                }
-                catch (ObjectDisposedException)
-                {
-                    // 忽略已释放的控件异常
-                }
-            });
         }
     }
 }

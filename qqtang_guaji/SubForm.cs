@@ -9,7 +9,6 @@ namespace qqtang_guaji
     public partial class SubForm : Form
     {
         protected CancellationTokenSource _cts;
-        protected Thread _scriptThread;
         
         public SubForm()
         {

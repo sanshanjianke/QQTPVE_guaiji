@@ -34,11 +34,11 @@ namespace qqtang_guaji
 		
 		void Button1Click(object sender, EventArgs e)
 		{
-            _script = new Scripts.SnailCatchingScript(_cts.Token);
-            _script.MapCount = int.Parse(textBox2.Text);
+            Scripts.SnailCatchingScript script = new Scripts.SnailCatchingScript(_cts.Token);
+            script.MapCount = int.Parse(textBox2.Text);
 
             // 设置日志动作
-            _script.SetLogAction((message) => {
+            script.SetLogAction((message) => {
 				if (textBox1.InvokeRequired) {
 					textBox1.Invoke(new Action<string>((msg) => {
 						textBox1.AppendText(msg + Environment.NewLine);
@@ -51,11 +51,11 @@ namespace qqtang_guaji
 			});
 
             // 在新线程中运行
-            _scriptThread = new Thread(() =>
+            Thread scriptThread = new Thread(() =>
             {
                 try
                 {
-                    _script.Run();
+                    script.Run();
                 }
                 catch (OperationCanceledException)
                 {
@@ -63,8 +63,8 @@ namespace qqtang_guaji
                 }
             });
 
-            _scriptThread.IsBackground = true;
-			_scriptThread.Start();			
+            scriptThread.IsBackground = true;
+			scriptThread.Start();
 		}
 
         void TextBox1TextChanged(object sender, EventArgs e)
