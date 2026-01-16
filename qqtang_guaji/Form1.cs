@@ -17,9 +17,8 @@ namespace qqtang_guaji
 	/// <summary>
 	/// Description of Form1.
 	/// </summary>
-	public partial class Form1 : Form
-	{
-        private CancellationToken _cts;
+	public partial class Form1 : SubForm
+    {
 
 
         public Form1()
@@ -28,7 +27,6 @@ namespace qqtang_guaji
             // The InitializeComponent() call is required for Windows Forms designer support.
             //
             InitializeComponent();
-            _cts = new CancellationToken();
             //
             // TODO: Add constructor code after the InitializeComponent() call.
             //
@@ -38,7 +36,7 @@ namespace qqtang_guaji
 
         void Button1Click(object sender, EventArgs e)
 		{
-			Scripts.LittleFruitVillage xiaoguo_run = new Scripts.LittleFruitVillage(_cts);
+			Scripts.LittleFruitVillage xiaoguo_run = new Scripts.LittleFruitVillage(_cts.Token);
     
 			
 			xiaoguo_run.WaitTime = int.Parse(textBox2.Text)*1000;

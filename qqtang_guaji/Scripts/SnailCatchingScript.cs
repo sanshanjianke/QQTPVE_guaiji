@@ -47,13 +47,8 @@ namespace Scripts
         
         public override void Run()
         {
-            LogToUI("5秒后脚本开始运行...");
-
-            Wait(5000);
 
             int MapCountIn = MapCount;
-
-            InputSimulator.DirectInputSimulator simulator = InputSimulator.DirectInputSimulator.Instance;
 
             // input.MoveMouseToClientPositionByPartialTitle("QQTPVE", 150, 200); 示例
             // 应对120分钟后禁止开始游戏，此处自动创建房间，选择地图等

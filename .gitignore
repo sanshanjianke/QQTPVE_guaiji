@@ -3,7 +3,6 @@
 ################################################################################
 
 .vs/
-/qqtang_guaji/.vs/
-/qqtang_guaji/bin/
-/qqtang_guaji/obj/
-/qqtang_guaji/bin/Debug/qqtang_guaji.exe
+qqtang_guaji/.vs/
+qqtang_guaji/bin/
+qqtang_guaji/obj/

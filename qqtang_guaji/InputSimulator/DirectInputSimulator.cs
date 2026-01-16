@@ -135,10 +135,6 @@ namespace InputSimulator
         // 窗口查找相关
         private const int MAX_WINDOW_TEXT_LENGTH = 256;
 
-        // 单例实例
-        private static DirectInputSimulator _instance;
-        public static DirectInputSimulator Instance => _instance ?? (_instance = new DirectInputSimulator());
-
         // 当前目标窗口句柄
         private IntPtr _targetWindowHandle = IntPtr.Zero;
 
@@ -158,19 +154,12 @@ namespace InputSimulator
 
         private MouseMode _mouseMode = MouseMode.PostMessage;
 
-        // 默认构造函数
-        private DirectInputSimulator()
-        {
-            // 默认错误处理：显示消息框
-            ErrorHandler = message => MessageBox.Show(message, "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
-        }
-
-        // 重要构造函数
+        // 构造函数
         private CancellationToken _token;
         public DirectInputSimulator(CancellationToken token)
         {
             // 默认错误处理：显示消息框
-            this._token = token;
+            _token = token;
             ErrorHandler = message => MessageBox.Show(message, "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
@@ -186,7 +175,7 @@ namespace InputSimulator
             return _mouseMode;
         }
 
-        // ==================== 窗口状态判断函数 ====================
+        #region 窗口状态判断函数
 
         /// <summary>
         /// 判断窗口是否是最小化状态
@@ -427,7 +416,9 @@ namespace InputSimulator
             return result;
         }
 
-        // ==================== 辅助方法 ====================
+        #endregion
+
+        #region 辅助方法
 
         // 将客户端坐标转换为LParam
         private int MakeLParam(int x, int y)
@@ -449,8 +440,10 @@ namespace InputSimulator
         {
             ErrorHandler?.Invoke(message);
         }
+        #endregion
 
-        // ==================== 窗口查找方法 ====================
+
+        #region 窗口查找方法 
 
         // 设置目标窗口
         public void SetTargetWindow(string partialTitle)
@@ -532,6 +525,8 @@ namespace InputSimulator
             IntPtr hWnd = GetTargetWindow();
             return ActivateWindow(hWnd);
         }
+
+        #endregion
 
         // ==================== 鼠标操作方法（物理） ====================
 
@@ -886,6 +881,7 @@ namespace InputSimulator
         // 按住按键一段时间
         public void Hold(string key, int milliseconds)
         {
+            _token.ThrowIfCancellationRequested();
             if (!KeyConfig.KeyScanCodes.ContainsKey(key.ToLower()))
             {
                 ShowError($"不支持的按键: {key}");
@@ -903,7 +899,6 @@ namespace InputSimulator
             SendKeyDown(hWnd, key);
             _token.WaitHandle.WaitOne(milliseconds);
             SendKeyUp(hWnd, key);
-            _token.ThrowIfCancellationRequested();
         }
 
         // 发送按键按下

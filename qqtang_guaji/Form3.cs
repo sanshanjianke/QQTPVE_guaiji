@@ -16,23 +16,21 @@ namespace qqtang_guaji
     /// <summary>
     /// Description of Form3.
     /// </summary>
-    public partial class Form3 : Form
+    public partial class Form3 : SubForm
     {
-        private CancellationToken _cts;
         public Form3()
         {
             //
             // The InitializeComponent() call is required for Windows Forms designer support.
             //
             InitializeComponent();
-            _cts = new CancellationToken();
             //
             // TODO: Add constructor code after the InitializeComponent() call.
             //
         }
         void Button1Click(object sender, EventArgs e)
         {
-            Scripts.SeasonCountry seasonCountry = new Scripts.SeasonCountry(_cts);
+            Scripts.SeasonCountry seasonCountry = new Scripts.SeasonCountry(_cts.Token);
 
             seasonCountry.WaitTime = int.Parse(textBox2.Text) * 1000;
 

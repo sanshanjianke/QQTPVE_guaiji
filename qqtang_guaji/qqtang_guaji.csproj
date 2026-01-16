@@ -85,6 +85,9 @@
     <Compile Include="Scripts\Qclick.cs" />
     <Compile Include="Scripts\SeasonCountry.cs" />
     <Compile Include="Scripts\SnailCatchingScript.cs" />
+    <Compile Include="SubForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
