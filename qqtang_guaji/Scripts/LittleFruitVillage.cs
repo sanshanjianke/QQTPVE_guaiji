@@ -55,11 +55,8 @@ namespace Scripts
 
         public override void Run()
         {
-<<<<<<< HEAD
-            while (true)
-=======
+
             while(true)
->>>>>>> a3d88f470c8af5dbbfc534216c9c91f05fb60e63
             {
                 RunOneRound();
             }
@@ -87,7 +84,6 @@ namespace Scripts
 
             LogToUI("等待" + (WaitTime / 1000.0).ToString("F2") + "秒后进入游戏...");
 
-<<<<<<< HEAD
             Wait(WaitTime);
 
 
@@ -101,8 +97,6 @@ namespace Scripts
             input.Press("z");
 
             string[] dirs = { "left", "right" };
-<<<<<<< HEAD
-=======
 
             for (int row = 0; row < 6; row++)
             {
@@ -177,7 +171,6 @@ namespace Scripts
             input.Press("space");            
             input.MoveMultiple("down",1);
             input.Press("space"); 
->>>>>>> a3d88f470c8af5dbbfc534216c9c91f05fb60e63
 
             for (int row = 0; row < 6; row++)
             {
