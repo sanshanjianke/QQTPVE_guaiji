@@ -104,12 +104,12 @@ namespace Scripts
             input.Press("f7");
 
             LogToUI("等待进入游戏...");
-            Wait(3000);
+            Wait(3500);
             
             // 第一关移动
-            input.MoveMultiple("up", 8);
-            input.MoveMultiple("right", 12);
-            input.MoveMultiple("up", 6);
+            input.MoveMultiple("up", 3);
+            input.MoveMultiple("right", 10);
+            input.MoveMultiple("up", 5);
 
             LogToUI("等待5秒后第二关拾取...");
             Wait(5000);
@@ -122,7 +122,7 @@ namespace Scripts
             input.Hold("right", 160);
             input.Hold("right", 180);
             
-            for(int i = 0; i < 50; i++)
+            for(int i = 0; i < 40; i++)
             {
                 input.Press("space");
                 Wait(15);
@@ -159,7 +159,7 @@ namespace Scripts
             input.MoveMultiple("left", 4);
             
             LogToUI("等待游戏结束...");
-            Wait(7000);
+            Wait(3000);
         }
     }
 }

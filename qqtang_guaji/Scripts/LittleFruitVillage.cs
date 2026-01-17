@@ -54,9 +54,6 @@ namespace Scripts
         
         public override void Run()
         {
-            LogToUI("5秒后脚本开始运行...");
-            Wait(5000);
-            
             while(true)
             {
                 RunOneRound();
@@ -85,296 +82,64 @@ namespace Scripts
 
             LogToUI("等待"+ WaitTime/1000 +"秒后进入游戏...");
 
-            Wait(WaitTime);
-            
-            
-            
-            input.MoveMultiple("down", 11);
+            //Wait(WaitTime);
+            Wait(3500);
+
+
+            input.MoveMultiple("down", 12);
             input.MoveMultiple("right", 20);
-            
-            Wait(10000); // 等怪来了，就打
-            input.Press("z");
-            
-            input.MoveMultiple("up", 1);
-            input.Press("space");
-            input.MoveMultiple("left", 1);
-            input.Press("space");
-            input.MoveMultiple("left", 1);
-            input.Press("space");
-            input.MoveMultiple("left", 1);
-            input.Press("space");
-            input.MoveMultiple("left", 1);
-            input.Press("space");
-            input.MoveMultiple("left", 1);
-            input.Press("space");
-            input.MoveMultiple("left", 1);
-            input.Press("space");
-            input.MoveMultiple("left", 1);
-            input.Press("space");
-            input.MoveMultiple("left", 1);
-            input.Press("space");
-            
 
-            input.MoveMultiple("left", 1); //躲避
-            input.MoveMultiple("down", 1);
-            
-            Wait(1500); //等泡泡爆炸
-            
-            input.MoveMultiple("up", 1); // 定位
-            input.Press("space");
-            input.MoveMultiple("left", 1);
-            input.Press("space");
-            input.MoveMultiple("left", 1);
-            input.Press("space");
-            input.MoveMultiple("left", 1);
-            input.Press("space");
-            input.MoveMultiple("left", 1);
-            input.Press("space");
-            input.MoveMultiple("left", 1);
-            input.Press("space");
-            input.MoveMultiple("left", 1);
-            input.Press("space");
-
-            input.MoveMultiple("left", 2); //躲避
-            input.MoveMultiple("down", 3); //定位
-            input.MoveMultiple("right",1); 
-            Wait(1500);
-            
-            input.MoveMultiple("up", 2);
-            input.MoveMultiple("right", 2);
-            input.Press("space");
-            input.MoveMultiple("right", 1);
-            input.Press("space");
-            input.MoveMultiple("right", 1);
-            input.Press("space");
-            input.MoveMultiple("right", 1);
-            input.Press("space");
-            input.MoveMultiple("right", 1);
-            input.Press("space");
-            input.MoveMultiple("right", 1);
-            input.Press("space");
-            input.MoveMultiple("right", 1);
-            input.Press("space");
-            input.MoveMultiple("right", 1);
-            input.Press("space");
-            
-            input.MoveMultiple("right", 1); //躲避
-            input.MoveMultiple("down", 1);
-            Wait(1500);
-            
-            input.MoveMultiple("up", 1);
-            input.Press("space");
-            input.MoveMultiple("right", 1);
-            input.Press("space");
-            input.MoveMultiple("right", 1);
-            input.Press("space");
-            input.MoveMultiple("right", 1);
-            input.Press("space");
-            input.MoveMultiple("right", 1);
-            input.Press("space");
-            input.MoveMultiple("right", 1);
-            input.Press("space");
-            input.MoveMultiple("right", 1);
-            input.Press("space");
-            input.MoveMultiple("right", 1);
-            input.Press("space");            
-            input.MoveMultiple("right", 1);
-            input.Press("space");    
-            
-            
-            input.MoveMultiple("right", 1); //躲避，定位
-            input.MoveMultiple("down", 3);
-            Wait(1500);
-            
-            input.MoveMultiple("up",2);
-            input.MoveMultiple("left", 2);
-            input.MoveMultiple("up",1);
-            input.Press("space");
-            input.MoveMultiple("left", 1);
-            input.Press("space");
-            input.MoveMultiple("left", 1);
-            input.Press("space");
-            input.MoveMultiple("left", 1);
-            input.Press("space");
-            input.MoveMultiple("left", 1);
-            input.Press("space");
-            input.MoveMultiple("left", 1);
-            input.Press("space");
-            input.MoveMultiple("left", 1);
-            input.Press("space");
-            input.MoveMultiple("left", 1);
-            input.Press("space");
-            input.MoveMultiple("left", 1);
-            input.Press("space");
-            
-            input.MoveMultiple("left", 1); //躲避
-            input.MoveMultiple("down", 1);
-            
-            Wait(1500); //等泡泡爆炸            
-           
-            input.MoveMultiple("up", 1); 
-            input.Press("space");
-            input.MoveMultiple("left", 1);
-            input.Press("space");
-            input.MoveMultiple("left", 1);
-            input.Press("space");
-            input.MoveMultiple("left", 1);
-            input.Press("space");
-            input.MoveMultiple("left", 1);
-            input.Press("space");
-            input.MoveMultiple("left", 1);
-            input.Press("space");
-            input.MoveMultiple("left", 1);
-            input.Press("space");
-            
-            input.MoveMultiple("left", 2); //躲避 定位
-            input.MoveMultiple("down", 4);
-            Wait(1500);
-            
-            input.MoveMultiple("up",4);
-            input.MoveMultiple("right", 2);
-            input.Press("space");
-            input.MoveMultiple("right", 1);
-            input.Press("space");
-            input.MoveMultiple("right", 1);
-            input.Press("space");
-            input.MoveMultiple("right", 1);
-            input.Press("space");
-            input.MoveMultiple("right", 1);
-            input.Press("space");
-            input.MoveMultiple("right", 1);
-            input.Press("space");
-            input.MoveMultiple("right", 1);
-            input.Press("space");
-            input.MoveMultiple("right", 1);
-            input.Press("space");
-            
-            input.MoveMultiple("right", 1); //躲避
-            input.MoveMultiple("down", 1);
-            Wait(1500);
-            
-            
-            input.MoveMultiple("up", 1);
-            input.Press("space");
-            input.MoveMultiple("right", 1);
-            input.Press("space");
-            input.MoveMultiple("right", 1);
-            input.Press("space");
-            input.MoveMultiple("right", 1);
-            input.Press("space");
-            input.MoveMultiple("right", 1);
-            input.Press("space");
-            input.MoveMultiple("right", 1);
-            input.Press("space");
-            input.MoveMultiple("right", 1);
-            input.Press("space");
-            input.MoveMultiple("right", 1);
-            input.Press("space");               
-            
-            
             input.MoveMultiple("down", 2);
-            input.MoveMultiple("right",2);
-            input.MoveMultiple("down",3);
-            Wait(1500);
-            
-            input.MoveMultiple("up",2);
-            input.MoveMultiple("left",2);
-            input.MoveMultiple("up",3);
-            
-            input.Press("space");
-            input.MoveMultiple("left", 1);
-            input.Press("space");
-            input.MoveMultiple("left", 1);
-            input.Press("space");
-            input.MoveMultiple("left", 1);
-            input.Press("space");
-            input.MoveMultiple("left", 1);
-            input.Press("space");
-            input.MoveMultiple("left", 1);
-            input.Press("space");
-            input.MoveMultiple("left", 1);
-            input.Press("space");
-            input.MoveMultiple("left", 1);
-            input.Press("space");
-            input.MoveMultiple("left", 1);
-            input.Press("space");
-            
-            input.MoveMultiple("left", 1); //躲避
-            input.MoveMultiple("down", 1);
-            Wait(1500);
-            
-            
-            input.MoveMultiple("up", 1); 
-            input.Press("space");
-            input.MoveMultiple("left", 1);
-            input.Press("space");
-            input.MoveMultiple("left", 1);
-            input.Press("space");
-            input.MoveMultiple("left", 1);
-            input.Press("space");
-            input.MoveMultiple("left", 1);
-            input.Press("space");
-            input.MoveMultiple("left", 1);
-            input.Press("space");
-            input.MoveMultiple("left", 1);
-            input.Press("space");
-            
-            input.MoveMultiple("left", 2); //躲避 定位
-            input.MoveMultiple("down", 6);
-            Wait(1500);
-            
-            
-            input.MoveMultiple("up",6);
-            input.MoveMultiple("right", 2);
-            input.Press("space");
-            input.MoveMultiple("right", 1);
-            input.Press("space");
-            input.MoveMultiple("right", 1);
-            input.Press("space");
-            input.MoveMultiple("right", 1);
-            input.Press("space");
-            input.MoveMultiple("right", 1);
-            input.Press("space");
-            input.MoveMultiple("right", 1);
-            input.Press("space");
-            input.MoveMultiple("right", 1);
-            input.Press("space");
-            input.MoveMultiple("right", 1);
-            input.Press("space");
-            
-            input.MoveMultiple("right", 1); //躲避
-            input.MoveMultiple("down", 1);
-            Wait(1500);
-            
             input.MoveMultiple("up", 1);
-            input.Press("space");
-            input.MoveMultiple("right", 1);
-            input.Press("space");
-            input.MoveMultiple("right", 1);
-            input.Press("space");
-            input.MoveMultiple("right", 1);
-            input.Press("space");
-            input.MoveMultiple("right", 1);
-            input.Press("space");
-            input.MoveMultiple("right", 1);
-            input.Press("space");
-            input.MoveMultiple("right", 1);
-            input.Press("space");
-            input.MoveMultiple("right", 1);
-            input.Press("space");            
+            Wait(2500); // 等怪来了，就打
+            input.Press("z");
 
-            input.MoveMultiple("down",4);
-            input.MoveMultiple("right",2);
-            input.MoveMultiple("down",3);
+            string[] dirs = { "left", "right" };
+
+            for (int row = 0; row < 6; row++)
+            {
+                for (int k = 0; k < 2; k++)
+                {
+                    input.Press("space");
+                    for (int i = 0; i < 7; i++)
+                    {
+                        input.MoveMultiple(dirs[row % 2], 1);
+                        input.Press("space");
+                    }
+                    if (k == 1) // 躲避
+                    {
+                        if (row % 2 == 1) // -> 卡进两个房子中
+                        {
+                            input.MoveMultiple("down", row);
+                            input.MoveMultiple("right", 2);
+                            input.MoveMultiple("down", 2);
+                            Wait(1000); //等泡泡爆炸
+                            input.MoveMultiple("up", 1);
+                            input.MoveMultiple("left", 2);
+                            input.MoveMultiple("up", row + 1);
+                        }
+                        else // <- 卡进两朵花中
+                        {
+                            input.MoveMultiple("left", 2);
+                            input.MoveMultiple("down", row + 1);
+                            Wait(1500); //等泡泡爆炸
+                            input.MoveMultiple("up", row + 2);
+                            input.MoveMultiple("right", 2);
+                        }
+                    }
+                    else
+                    {
+                        input.MoveMultiple(dirs[row % 2], 1);
+                        input.MoveMultiple("down", 1);
+                        Wait(1500); //等泡泡爆炸
+                        input.MoveMultiple("up", 1);
+                    }
+                }
+            }
             
-            Wait(1500);
-            
-            input.MoveMultiple("up",2);
-            input.MoveMultiple("left",2);
-            input.MoveMultiple("up",5);
             
             input.MoveMultiple("left",15);
-            input.MoveMultiple("up",1);
+            input.MoveMultiple("up",2);
             input.MoveMultiple("right",15);
             input.MoveMultiple("left",17);
             
