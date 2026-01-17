@@ -122,7 +122,7 @@ namespace Scripts
             input.Hold("right", 160);
             input.Hold("right", 180);
             
-            for(int i = 0; i < 50; i++)
+            for(int i = 0; i < 40; i++)
             {
                 input.Press("space");
                 Wait(15);

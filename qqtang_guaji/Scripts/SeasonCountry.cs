@@ -43,9 +43,8 @@ namespace Scripts
         {
             
 
-            LogToUI("5秒后脚本开始运行...");
+            LogToUI("开始游戏");
 
-            Wait(5000);
 
             while (true)
             {

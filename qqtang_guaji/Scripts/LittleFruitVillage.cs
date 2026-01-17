@@ -54,8 +54,7 @@ namespace Scripts
         
         public override void Run()
         {
-            LogToUI("5秒后脚本开始运行...");
-            Wait(5000);
+            LogToUI("开始游戏");
             
             while(true)
             {
