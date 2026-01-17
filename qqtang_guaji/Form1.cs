@@ -38,7 +38,7 @@ namespace qqtang_guaji
 		{
 
             Scripts.LittleFruitVillage script = new Scripts.LittleFruitVillage(_cts.Token);
-            script.WaitTime = int.Parse(textBox2.Text) * 1000;
+            script.WaitTime = (int)(Convert.ToDouble(textBox2.Text) * 1000);
 
             // 设置日志动作
             script.SetLogAction((message) => {
