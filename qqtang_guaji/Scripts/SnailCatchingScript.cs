@@ -107,9 +107,9 @@ namespace Scripts
             Wait(3500);
             
             // 第一关移动
-            input.MoveMultiple("up", 3);
-            input.MoveMultiple("right", 10);
-            input.MoveMultiple("up", 5);
+            input.MoveMultiple("up", 4);
+            input.MoveMultiple("right", 11);
+            input.MoveMultiple("up", 6);
 
             LogToUI("等待5秒后第二关拾取...");
             Wait(5000);
@@ -122,14 +122,14 @@ namespace Scripts
             input.Hold("right", 160);
             input.Hold("right", 180);
             
-            for(int i = 0; i < 40; i++)
+            for(int i = 0; i < 30; i++)
             {
                 input.Press("space");
-                Wait(15);
+                Wait(20);
             }
             
             input.MoveMultiple("up", 1);
-            
+
             input.MoveMultiple("left", 1);
             
             Wait(5000);
